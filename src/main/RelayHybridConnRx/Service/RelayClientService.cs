@@ -4,6 +4,7 @@ using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Model;
 using IRelayHybridConnRx.Service;
@@ -20,9 +21,9 @@ namespace RelayHybridConnRx.Service
                 string relayNamespace, 
                 string connectionName, 
                 string keyName, 
-                string key,
-                TimeSpan? timeout = null)
+                string key)
         {
+
             var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(keyName, key);
             var client = new HybridConnectionClient(new Uri($"sb://{relayNamespace}/{connectionName}"), tokenProvider);
 

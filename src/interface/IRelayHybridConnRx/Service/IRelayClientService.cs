@@ -13,8 +13,7 @@ namespace IRelayHybridConnRx.Service
                 string relayNamespace,
                 string connectionName,
                 string keyName,
-                string key,
-                TimeSpan? timeout = null);
+                string key);
 
         Task SendAsync(string message);
     }
