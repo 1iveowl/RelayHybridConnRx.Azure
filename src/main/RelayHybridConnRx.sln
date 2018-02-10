@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayHybridConnRx", "RelayHybridConnRx\RelayHybridConnRx.csproj", "{B3F3A51E-EE61-44BD-A66F-3C61E292C049}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{3450D61F-E733-4DA1-AFFC-8C6806E47AD9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{DA6027BB-6A36-48DF-B194-B7D9EDC9A7B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C26E657B-78AD-4E43-8438-A284B5C37B3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{8240E75A-8CB7-41DF-B057-86ACBE532B59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{15141455-7EAD-4D70-A316-1CB93E9152C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3F3A51E-EE61-44BD-A66F-3C61E292C049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F3A51E-EE61-44BD-A66F-3C61E292C049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F3A51E-EE61-44BD-A66F-3C61E292C049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F3A51E-EE61-44BD-A66F-3C61E292C049}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3F3A51E-EE61-44BD-A66F-3C61E292C049} = {3450D61F-E733-4DA1-AFFC-8C6806E47AD9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33DF95F1-CCDF-4BEA-A906-F6D56346ADA4}
+	EndGlobalSection
+EndGlobal
