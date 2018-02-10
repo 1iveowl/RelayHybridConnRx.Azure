@@ -8,7 +8,7 @@ namespace IRelayHybridConnRx.Service
 {
     public interface IRelayClientService
     {
-        Task<(IObservable<RelayClientConnectionState> relayConnectionStateObservable, IObservable<string> messageObservable)>
+        Task<IObservable<string>>
             RelayClintObservableAsync(
                 string relayNamespace,
                 string connectionName,
@@ -16,6 +16,6 @@ namespace IRelayHybridConnRx.Service
                 string key,
                 TimeSpan? timeout = null);
 
-        Task SendAsync(string message, TimeSpan? timeout = null);
+        Task SendAsync(string message);
     }
 }

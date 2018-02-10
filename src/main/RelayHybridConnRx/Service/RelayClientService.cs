@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Model;
@@ -10,7 +13,9 @@ namespace RelayHybridConnRx.Service
 {
     public class RelayClientService : IRelayClientService
     {
-        public async Task<(IObservable<RelayClientConnectionState> relayConnectionStateObservable, IObservable<string> messageObservable)> 
+        private HybridConnectionStream _relayConnection;
+
+        public async Task<IObservable<string>> 
             RelayClintObservableAsync(
                 string relayNamespace, 
                 string connectionName, 
@@ -22,14 +27,51 @@ namespace RelayHybridConnRx.Service
             var client = new HybridConnectionClient(new Uri($"sb://{relayNamespace}/{connectionName}"), tokenProvider);
 
             // Initiate the connection.
-            var relayConnection = await client.CreateConnectionAsync();
+            _relayConnection = await client.CreateConnectionAsync();
 
-            throw new NotImplementedException();
+            var observableMessages = Observable.Create<string>(obs =>
+            {
+                var disposable = Observable.Using(
+                    () => new StreamReader(_relayConnection),
+                    reader => reader.ReadLineAsync().ToObservable())
+                    .Subscribe(stringLine =>
+                    {
+                        // If there's no input data, signal that 
+                        // you will no longer send data on this connection.
+                        // Then, break out of the processing loop.
+                        if (string.IsNullOrEmpty(stringLine))
+                        {
+                            obs.OnCompleted();
+                        }
+
+                        obs.OnNext(stringLine);
+                    },
+                    ex =>
+                    {
+                        if (ex is IOException)
+                        {
+                            // Catch an I/O exception. This likely occurred when
+                            // the client disconnected.
+                        }
+                        else
+                        {
+                            obs.OnError(ex);
+                        }
+                    },
+                    obs.OnCompleted);
+
+                return disposable;
+            });
+
+            return observableMessages;
         }
 
-        public async Task SendAsync(string message, TimeSpan? timeout = null)
+        public async Task SendAsync(string message)
         {
-            throw new NotImplementedException();
+            using (var writer = new StreamWriter(_relayConnection) {AutoFlush = true})
+            {
+                await writer.WriteLineAsync(message).ConfigureAwait(false);
+            }
         }
     }
 }
