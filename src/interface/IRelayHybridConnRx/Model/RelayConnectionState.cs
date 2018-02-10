@@ -4,12 +4,13 @@ using System.Text;
 
 namespace IRelayHybridConnRx.Model
 {
-    public enum RelayConnectionState
+    public enum RelayListenerConnectionState
     {
         Offline,
         Connecting,
         Online,
         Listening,
-        ExitingListener
+        ExitingListener,
+        Receiving
     }
 }

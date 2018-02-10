@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Model;
@@ -8,8 +9,8 @@ namespace IRelayHybridConnRx.Service
 {
     public interface IRelayListenerService
     {
-        Task<(IObservable<RelayConnectionState> relayConnectionStateObservable, IObservable<string> message)> 
-            RelayListenerObservable(
+        Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> message)> 
+            RelayListenerObservableAsync(
                 string relayNamespace,
                 string connectionName,
                 string keyName,
