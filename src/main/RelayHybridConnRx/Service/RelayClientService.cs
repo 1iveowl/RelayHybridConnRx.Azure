@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using IRelayHybridConnRx.Model;
 using IRelayHybridConnRx.Service;
 using Microsoft.Azure.Relay;
 
