@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRelayHybridConnRx", "..\in
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "..\test\ConsoleTest\ConsoleTest.csproj", "{4947A4CC-18FE-419D-8C77-63E314C107DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayHybridConnRx.xUnit", "..\test\RelayHybridConnRx.xUnit\RelayHybridConnRx.xUnit.csproj", "{0FD98FD4-5A4A-422B-82B4-747520D5B94F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{4947A4CC-18FE-419D-8C77-63E314C107DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4947A4CC-18FE-419D-8C77-63E314C107DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4947A4CC-18FE-419D-8C77-63E314C107DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD98FD4-5A4A-422B-82B4-747520D5B94F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD98FD4-5A4A-422B-82B4-747520D5B94F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD98FD4-5A4A-422B-82B4-747520D5B94F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD98FD4-5A4A-422B-82B4-747520D5B94F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{B3F3A51E-EE61-44BD-A66F-3C61E292C049} = {3450D61F-E733-4DA1-AFFC-8C6806E47AD9}
 		{32FB824E-C384-4342-BBA3-40D185CB67F6} = {DA6027BB-6A36-48DF-B194-B7D9EDC9A7B9}
 		{4947A4CC-18FE-419D-8C77-63E314C107DB} = {15141455-7EAD-4D70-A316-1CB93E9152C5}
+		{0FD98FD4-5A4A-422B-82B4-747520D5B94F} = {15141455-7EAD-4D70-A316-1CB93E9152C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33DF95F1-CCDF-4BEA-A906-F6D56346ADA4}
