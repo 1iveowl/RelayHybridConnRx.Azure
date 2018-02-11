@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RelayHybridConnRx</id>
+    <version>0</version>
+    <title>Relay Hybrid Connection Rx library for Azure</title>
+    <authors>Jasper H. Bojsen</authors>
+    <owners>1iveowl Development</owners>
+    <licenseUrl>https://github.com/bvanderveen/httpmachine/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/1iveowl/HttpMachine.PCL</projectUrl>
+    <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Setting up an Azure Relay Hybrid Connection have never been easier</description>
+    <releaseNotes>
+
+    </releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>azure relay hybrid connection reactive extensions rx netstardard</tags>
+  </metadata>
+  
+  <files>
+    <file src="..\main\HttpMachine.netstandard\bin\Release\netstandard1.0\HttpMachine.*" target="lib\netstandard1.0" />
+    <file src="..\main\HttpMachine.netstandard\bin\Release\netstandard1.0\IHttpMachine.*" target="lib\netstandard1.0" />
+  </files>       
+</package>
