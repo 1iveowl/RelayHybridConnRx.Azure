@@ -13,7 +13,7 @@ I wanted to make it super easy to set up a Relay Hybrid Connection for Azure. An
 For an introduction to Azure Relay Hybrid Connects see: [Get started with Relay Hybrid Connections](https://docs.microsoft.com/en-us/azure/service-bus-relay/relay-hybrid-connections-dotnet-get-started)
 
 ## How to use
-Using this library is super easy. Follow these examples or see the [Console Test sample](https://github.com/1iveowl/RelayHybridConnRx.Azure/tree/master/src/test/ConsoleTest)
+Using this library is super easy. Follow these examples or see the [console sample application](https://github.com/1iveowl/RelayHybridConnRx.Azure/tree/master/src/test/ConsoleTest)
 
 ### Creating a listener
 
