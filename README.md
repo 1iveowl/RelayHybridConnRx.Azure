@@ -10,10 +10,10 @@
 
 I wanted to make it super easy to set up a Relay Hybrid Connection for Azure. And I wanted to base it on Reactive Extensions (Rx). Rx is an API for asynchronous programming with observable streams and make perfect sense in a relay scenario. 
 
-For an introduction to Azure Relay Hybrid Connects see [Get started with Relay Hybrid Connections](https://docs.microsoft.com/en-us/azure/service-bus-relay/relay-hybrid-connections-dotnet-get-started)
+For an introduction to Azure Relay Hybrid Connects see: [Get started with Relay Hybrid Connections](https://docs.microsoft.com/en-us/azure/service-bus-relay/relay-hybrid-connections-dotnet-get-started)
 
 ## How to use
-Using this library is super easy.
+Using this library is super easy, just follow these examples or see the [Console Test sample](https://github.com/1iveowl/RelayHybridConnRx.Azure/tree/master/src/test/ConsoleTest)
 
 ### Creating a listener
 
