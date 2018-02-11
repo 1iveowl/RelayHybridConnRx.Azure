@@ -34,7 +34,7 @@ listener.messageObservable.Subscribe(async msg =>
     {
         Console.WriteLine($"Listener Recieved Message: {msg.IncomingMessage}");
 
-		// Send an echo back to the client that send the incoming message is super easy:
+		// Send an echo back to the client
         await msg.ResponseMessageAsync($"Echo: {msg.IncomingMessage}");
     },
     ex => Console.WriteLine($"Message Listener exception: {ex}"),
