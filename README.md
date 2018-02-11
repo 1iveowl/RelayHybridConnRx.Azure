@@ -61,4 +61,5 @@ ex => Console.WriteLine($"Client exception: {ex}"),
 ```cs
 await relayClient.SendAsync("Test");
 ```
+Note: The client myst be initilized before messages can be send.
 
