@@ -10,7 +10,7 @@ namespace IRelayHybridConnRx.Service
     public interface IRelayListenerService
     {
         Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> messageObservable)> 
-            RelayListenerObservableAsync(
+            RelayListenerInitializeAsync(
                 string relayNamespace,
                 string connectionName,
                 string keyName,

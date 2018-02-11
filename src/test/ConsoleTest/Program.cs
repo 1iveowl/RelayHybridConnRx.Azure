@@ -21,8 +21,8 @@ namespace ConsoleTest
 
             var relayClient = new RelayClientService();
 
-            var listener = await relayListener.RelayListenerObservableAsync(relayNameSpace, connectionName, keyName, key);
-            var clientObservable = await relayClient.RelayClintObservableAsync(relayNameSpace, connectionName, keyName, key);
+            var listener = await relayListener.RelayListenerInitializeAsync(relayNameSpace, connectionName, keyName, key);
+            var clientObservable = await relayClient.RelayClintObservableInitializeAsync(relayNameSpace, connectionName, keyName, key);
 
             listener.relayConnectionStateObservable.Subscribe(state =>
                 {

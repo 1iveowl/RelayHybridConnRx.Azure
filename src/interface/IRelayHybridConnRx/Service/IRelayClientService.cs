@@ -9,7 +9,7 @@ namespace IRelayHybridConnRx.Service
     public interface IRelayClientService
     {
         Task<IObservable<string>>
-            RelayClintObservableAsync(
+            RelayClintObservableInitializeAsync(
                 string relayNamespace,
                 string connectionName,
                 string keyName,

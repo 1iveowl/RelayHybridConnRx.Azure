@@ -4,18 +4,20 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Model;
 using IRelayHybridConnRx.Service;
 using Microsoft.Azure.Relay;
+using RelayHybridConnRx.CustomException;
 using RelayHybridConnRx.Model;
 
 namespace RelayHybridConnRx.Service
 {
     public class RelayListenerService : IRelayListenerService
     {
+        private bool _isInitialized;
+
         private readonly IObserver<RelayListenerConnectionState> _relayStateObserver;
         private readonly IObservable<RelayListenerConnectionState> _relayStateObservable;
 
@@ -28,8 +30,15 @@ namespace RelayHybridConnRx.Service
         }
 
         public async Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> messageObservable)> 
-            RelayListenerObservableAsync(string relayNamespace, string connectionName, string keyName, string key, TimeSpan? timeout = null)
+            RelayListenerInitializeAsync(string relayNamespace, string connectionName, string keyName, string key, TimeSpan? timeout = null)
         {
+            if (_isInitialized)
+            {
+                throw new RelayListenerException("Relay Listener can only be initialized once. Create a new instance if multiple listerners are needed.");
+            }
+
+            _isInitialized = true;
+
             // Set default timout to 10 seconds.
             timeout = timeout ?? TimeSpan.FromSeconds(10);
 
@@ -106,7 +115,7 @@ namespace RelayHybridConnRx.Service
                         _relayStateObserver.OnCompleted();
 
                     }));
-            });
+            }).Publish().RefCount();
 
             return (_relayStateObservable, observableRelayMessages);
         }

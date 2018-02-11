@@ -2,26 +2,33 @@
 using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Service;
 using Microsoft.Azure.Relay;
+using RelayHybridConnRx.CustomException;
 
 namespace RelayHybridConnRx.Service
 {
     public class RelayClientService : IRelayClientService
     {
+        private bool _isInitialized;
         private HybridConnectionStream _relayConnection;
 
         private StreamWriter _writer;
 
         public async Task<IObservable<string>> 
-            RelayClintObservableAsync(
+            RelayClintObservableInitializeAsync(
                 string relayNamespace, 
                 string connectionName, 
                 string keyName, 
                 string key)
         {
+            if (_isInitialized)
+            {
+                throw new RelayClientException("Relay client can only be initialized once. Create a new instance, if multiple clients are needed.");
+            }
+
+            _isInitialized = true;
 
             var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(keyName, key);
             var client = new HybridConnectionClient(new Uri($"sb://{relayNamespace}/{connectionName}"), tokenProvider);
@@ -29,9 +36,9 @@ namespace RelayHybridConnRx.Service
             // Initiate the connection.
             _relayConnection = await client.CreateConnectionAsync();
 
-            var reader = new StreamReader(_relayConnection);
+            _writer = new StreamWriter(_relayConnection) { AutoFlush = true };
 
-            _writer = new StreamWriter(_relayConnection) {AutoFlush = true};
+            var reader = new StreamReader(_relayConnection);
 
             var readerObservable = Observable.FromAsync(reader.ReadLineAsync);
 
@@ -74,7 +81,7 @@ namespace RelayHybridConnRx.Service
                         _writer?.Dispose();
                         _relayConnection?.Dispose();
                     }));
-            });
+            }).Publish().RefCount();
 
             return observableMessages;
         }
