@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace RelayHybridConnRx.Service
     public class RelayClientService : IRelayClientService
     {
         private HybridConnectionStream _relayConnection;
+
+        private StreamWriter _writer;
 
         public async Task<IObservable<string>> 
             RelayClintObservableAsync(
@@ -26,11 +29,17 @@ namespace RelayHybridConnRx.Service
             // Initiate the connection.
             _relayConnection = await client.CreateConnectionAsync();
 
+            var reader = new StreamReader(_relayConnection);
+
+            _writer = new StreamWriter(_relayConnection) {AutoFlush = true};
+
+            var readerObservable = Observable.FromAsync(reader.ReadLineAsync);
+
             var observableMessages = Observable.Create<string>(obs =>
             {
-                var disposable = Observable.Using(
-                    () => new StreamReader(_relayConnection),
-                    reader => reader.ReadLineAsync().ToObservable())
+                var disposableReader = Observable.While(
+                    () => true,
+                    readerObservable)
                     .Subscribe(stringLine =>
                     {
                         // If there's no input data, signal that 
@@ -57,7 +66,14 @@ namespace RelayHybridConnRx.Service
                     },
                     obs.OnCompleted);
 
-                return disposable;
+                return new CompositeDisposable(
+                    disposableReader,
+                    Disposable.Create(() =>
+                    {
+                        reader?.Dispose();
+                        _writer?.Dispose();
+                        _relayConnection?.Dispose();
+                    }));
             });
 
             return observableMessages;
@@ -65,10 +81,7 @@ namespace RelayHybridConnRx.Service
 
         public async Task SendAsync(string message)
         {
-            using (var writer = new StreamWriter(_relayConnection) {AutoFlush = true})
-            {
-                await writer.WriteLineAsync(message).ConfigureAwait(false);
-            }
+            await _writer.WriteLineAsync(message);
         }
     }
 }

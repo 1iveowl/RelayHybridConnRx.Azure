@@ -27,7 +27,7 @@ namespace RelayHybridConnRx.Service
             _relayStateObserver = relayStateSubject.AsObserver();
         }
 
-        public async Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> message)> 
+        public async Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> messageObservable)> 
             RelayListenerObservableAsync(string relayNamespace, string connectionName, string keyName, string key, TimeSpan? timeout = null)
         {
             // Set default timout to 10 seconds.
@@ -45,7 +45,10 @@ namespace RelayHybridConnRx.Service
             listener.Online += OnlineHandler;
 
             await listener.OpenAsync(cts.Token);
+
             _relayStateObserver.OnNext(RelayListenerConnectionState.Listening);
+
+            var acceptConnectionObservable = Observable.FromAsync(() => listener.AcceptConnectionAsync());
 
             var observableRelayMessages = Observable.Create<IMessage>(obs =>
             {
@@ -53,13 +56,23 @@ namespace RelayHybridConnRx.Service
 
                 var disposableConnections = Observable.While(
                         () => !cts.IsCancellationRequested,
-                        listener.AcceptConnectionAsync().ToObservable())
+                        acceptConnectionObservable)
                     .Subscribe(connection =>
                         {
-                            disposableRelayMessages = _observableRelayStringLine(connection, cts.Token)
-                                .Subscribe(
-                                    obs.OnNext,
-                                    obs.OnError);
+                            if (connection != null)
+                            {
+                                var isConnectionEstablished = true;
+
+                                disposableRelayMessages = _observableRelayStringLine(connection, cts.Token)
+                                    .Finally(() =>
+                                    {
+                                        isConnectionEstablished = false;
+                                    })
+                                    .Subscribe(
+                                        obs.OnNext,
+                                        obs.OnError);
+
+                            }
                         },
                         ex =>
                         {
@@ -115,14 +128,16 @@ namespace RelayHybridConnRx.Service
                 {
                     _relayStateObserver.OnNext(RelayListenerConnectionState.Receiving);
 
-                    var writer = new StreamWriter(connection) { AutoFlush = true };
-            
-                    var lineObservable = Observable.Using(
-                        () => new StreamReader(connection), 
-                        reader => reader.ReadLineAsync().ToObservable());
-            
+                    var reader = new StreamReader(connection);
 
-                    var disposableText = lineObservable.Subscribe(stringLine =>
+                    var writer = new StreamWriter(connection) { AutoFlush = true };
+
+                    var readerObservable = Observable.FromAsync(reader.ReadLineAsync);
+         
+                    var disposableText = Observable.While(
+                        () => !ct.IsCancellationRequested,
+                        readerObservable)
+                        .Subscribe(stringLine =>
                         {
                             // If there's no input data, signal that 
                             // you will no longer send data on this connection.
@@ -157,7 +172,11 @@ namespace RelayHybridConnRx.Service
                             _relayStateObserver.OnNext(RelayListenerConnectionState.Listening);
 
                             writer?.Dispose();
-                            connection.ShutdownAsync(ct).Wait(ct);
+                            reader?.Dispose();
+
+
+                            //connection?.ShutdownAsync(ct)?.Wait(ct);
+                            
                         }));
                 });
 
