@@ -9,4 +9,4 @@ else {
 
 .\build.ps1 $version
 
-Nuget.exe push ".\NuGet\RelayHybridConnRx.$version.symbols.nupkg" -Source https://www.nuget.org
+Nuget.exe push ".\NuGet\RelayHybridConnRx.Azure.$version.symbols.nupkg" -Source https://www.nuget.org
