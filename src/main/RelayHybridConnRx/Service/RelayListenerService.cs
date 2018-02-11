@@ -61,17 +61,10 @@ namespace RelayHybridConnRx.Service
                         {
                             if (connection != null)
                             {
-                                var isConnectionEstablished = true;
-
                                 disposableRelayMessages = _observableRelayStringLine(connection, cts.Token)
-                                    .Finally(() =>
-                                    {
-                                        isConnectionEstablished = false;
-                                    })
                                     .Subscribe(
                                         obs.OnNext,
                                         obs.OnError);
-
                             }
                         },
                         ex =>
@@ -86,10 +79,11 @@ namespace RelayHybridConnRx.Service
                         });
 
                 return new CompositeDisposable(
-                    disposableRelayMessages,
-                    disposableConnections,
                     Disposable.Create(() =>
                     {
+                        disposableConnections?.Dispose();
+                        disposableConnections?.Dispose();
+
                         _relayStateObserver.OnNext(RelayListenerConnectionState.ExitingListener);
 
                         try
@@ -102,7 +96,7 @@ namespace RelayHybridConnRx.Service
                         }
                         finally
                         {
-                            cts.Dispose();
+                            cts?.Dispose();
                         }
 
                         listener.Connecting -= ConnectingHandler;
