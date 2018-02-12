@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Setting up an Azure Relay Hybrid Connection have never been easier</description>
     <releaseNotes>
-
+Bug fix
     </releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>azure relay hybrid connection reactive extensions rx netstardard</tags>
