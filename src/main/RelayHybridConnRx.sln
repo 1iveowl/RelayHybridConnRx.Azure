@@ -33,6 +33,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelayHybridConnRx.xUnit", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.Net461", "..\test\ConsoleApp.Net461\ConsoleApp.Net461.csproj", "{E8E69E2A-A39A-4AFB-A3CD-C4C611ACD416}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Crossplatform", "Crossplatform", "{ED9D1350-7162-4F5B-8A77-CC9ABE7B8516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayHybridConnRx.net45", "..\Crossplatform\RelayHybridConnRx.net45\RelayHybridConnRx.net45.csproj", "{1F13FB93-34F0-43A5-B7E0-2BB87817471C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelayHybridConnRx.net461", "..\Crossplatform\RelayHybridConnRx.net461\RelayHybridConnRx.net461.csproj", "{D2671C77-19B4-48E0-9AAE-8E5F6CA26965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +65,14 @@ Global
 		{E8E69E2A-A39A-4AFB-A3CD-C4C611ACD416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E69E2A-A39A-4AFB-A3CD-C4C611ACD416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E69E2A-A39A-4AFB-A3CD-C4C611ACD416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F13FB93-34F0-43A5-B7E0-2BB87817471C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F13FB93-34F0-43A5-B7E0-2BB87817471C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F13FB93-34F0-43A5-B7E0-2BB87817471C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F13FB93-34F0-43A5-B7E0-2BB87817471C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2671C77-19B4-48E0-9AAE-8E5F6CA26965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2671C77-19B4-48E0-9AAE-8E5F6CA26965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2671C77-19B4-48E0-9AAE-8E5F6CA26965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2671C77-19B4-48E0-9AAE-8E5F6CA26965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +83,8 @@ Global
 		{4947A4CC-18FE-419D-8C77-63E314C107DB} = {15141455-7EAD-4D70-A316-1CB93E9152C5}
 		{0FD98FD4-5A4A-422B-82B4-747520D5B94F} = {15141455-7EAD-4D70-A316-1CB93E9152C5}
 		{E8E69E2A-A39A-4AFB-A3CD-C4C611ACD416} = {15141455-7EAD-4D70-A316-1CB93E9152C5}
+		{1F13FB93-34F0-43A5-B7E0-2BB87817471C} = {ED9D1350-7162-4F5B-8A77-CC9ABE7B8516}
+		{D2671C77-19B4-48E0-9AAE-8E5F6CA26965} = {ED9D1350-7162-4F5B-8A77-CC9ABE7B8516}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33DF95F1-CCDF-4BEA-A906-F6D56346ADA4}
