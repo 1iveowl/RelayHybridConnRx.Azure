@@ -45,8 +45,8 @@ namespace RelayHybridConnRx.Service
             var cts = new CancellationTokenSource(timeout.Value);
 
             var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(keyName, key);
-            var listener = new HybridConnectionListener(
-                new Uri($"sb://{relayNamespace}/{connectionName}"), tokenProvider);
+
+            var listener = new HybridConnectionListener(new Uri($"sb://{relayNamespace}/{connectionName}"), tokenProvider);
 
             // Subscribe to the connection status events.
             listener.Connecting += ConnectingHandler;
@@ -54,10 +54,8 @@ namespace RelayHybridConnRx.Service
             listener.Online += OnlineHandler;
 
             await listener.OpenAsync(cts.Token);
-
+            
             _relayStateObserver.OnNext(RelayListenerConnectionState.Listening);
-
-            var acceptConnectionObservable = Observable.FromAsync(() => listener.AcceptConnectionAsync());
 
             var observableRelayMessages = Observable.Create<IMessage>(obs =>
             {
@@ -65,15 +63,13 @@ namespace RelayHybridConnRx.Service
 
                 var disposableConnections = Observable.While(
                         () => !cts.IsCancellationRequested,
-                        acceptConnectionObservable)
+                        Observable.FromAsync(() => listener.AcceptConnectionAsync()))
                     .Subscribe(connection =>
                         {
                             if (connection != null)
                             {
                                 disposableRelayMessages = _observableRelayStringLine(connection, cts.Token)
-                                    .Subscribe(
-                                        obs.OnNext,
-                                        obs.OnError);
+                                    .Subscribe(obs.OnNext, obs.OnError);
                             }
                         },
                         ex =>
@@ -87,11 +83,10 @@ namespace RelayHybridConnRx.Service
                             obs.OnCompleted();
                         });
 
-                return new CompositeDisposable(
-                    Disposable.Create(() =>
+                return Disposable.Create(() =>
                     {
                         disposableConnections?.Dispose();
-                        disposableConnections?.Dispose();
+                        disposableRelayMessages?.Dispose();
 
                         _relayStateObserver.OnNext(RelayListenerConnectionState.ExitingListener);
 
@@ -114,7 +109,8 @@ namespace RelayHybridConnRx.Service
                         
                         _relayStateObserver.OnCompleted();
 
-                    }));
+                    });
+
             }).Publish().RefCount();
 
             return (_relayStateObservable, observableRelayMessages);
@@ -148,7 +144,16 @@ namespace RelayHybridConnRx.Service
                             if (string.IsNullOrEmpty(stringLine))
                             {
                                 writer?.Dispose();
-                                connection?.ShutdownAsync(ct)?.Wait(ct);
+
+                                try
+                                {
+                                    connection?.ShutdownAsync(ct)?.Wait(ct);
+                                }
+                                catch (AggregateException)
+                                {
+                                    // Ignore if connection already closed
+                                }
+                                
                                 obs.OnCompleted();
                             }
 
@@ -177,9 +182,14 @@ namespace RelayHybridConnRx.Service
                             writer?.Dispose();
                             reader?.Dispose();
 
-
-                            //connection?.ShutdownAsync(ct)?.Wait(ct);
-                            
+                            try
+                            {
+                                connection?.ShutdownAsync(ct)?.Wait(ct);
+                            }
+                            catch (AggregateException)
+                            {
+                                // Ignore if connection already closed
+                            }
                         }));
                 });
 

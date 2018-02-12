@@ -24,14 +24,14 @@ namespace ConsoleTest
             var listener = await relayListener.RelayListenerInitializeAsync(relayNameSpace, connectionName, keyName, key);
             var clientObservable = await relayClient.RelayClintObservableInitializeAsync(relayNameSpace, connectionName, keyName, key);
 
-            listener.relayConnectionStateObservable.Subscribe(state =>
+            var disposableState = listener.relayConnectionStateObservable.Subscribe(state =>
                 {
                     Console.WriteLine($"Listener state: {state}");
                 },
                 ex => Console.WriteLine($"Listener State exception: {ex}"),
                 () => Console.WriteLine("Listener State Completed"));
 
-            listener.messageObservable.Subscribe(async msg =>
+            var disposableMessages = listener.messageObservable.Subscribe(async msg =>
                 {
                     Console.WriteLine($"Listener Recieved Message: {msg.IncomingMessage}");
                     await msg.ResponseMessageAsync($"Received: {msg.IncomingMessage}");
@@ -42,7 +42,7 @@ namespace ConsoleTest
             await Task.Delay(TimeSpan.FromSeconds(2));
 
 
-            clientObservable.Subscribe(msg =>
+            var disposableClient = clientObservable.Subscribe(msg =>
             {
                 Console.WriteLine($"Client received: {msg}");
             },
@@ -56,6 +56,15 @@ namespace ConsoleTest
             await Task.Delay(TimeSpan.FromSeconds(2));
 
             await relayClient.SendAsync("Test2");
+
+            Console.WriteLine("Press anykey to stop listening...");
+            Console.ReadLine();
+
+            disposableClient?.Dispose();
+            disposableState?.Dispose();
+            disposableMessages?.Dispose();
+
+            Console.WriteLine("Press anykey to exit...");
 
             Console.ReadLine();
         }
