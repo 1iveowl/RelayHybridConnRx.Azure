@@ -49,11 +49,11 @@ namespace ConsoleTest
             ex => Console.WriteLine($"Client exception: {ex}"),
             () => Console.WriteLine("Client Completed"));
 
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromSeconds(12));
 
             await relayClient.SendAsync("Test");
 
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromSeconds(12));
 
             await relayClient.SendAsync("Test2");
 

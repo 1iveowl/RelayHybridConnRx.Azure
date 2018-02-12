@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using IRelayHybridConnRx.Model;
 
@@ -15,6 +16,7 @@ namespace IRelayHybridConnRx.Service
                 string connectionName,
                 string keyName,
                 string key,
-                TimeSpan? timeout = null);
+                TimeSpan? timeout = null,
+                CancellationTokenSource cancellationTokenSource = null);
     }
 }

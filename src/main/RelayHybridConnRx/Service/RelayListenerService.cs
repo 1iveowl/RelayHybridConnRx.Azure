@@ -1,4 +1,9 @@
-﻿using System;
+﻿using IRelayHybridConnRx.Model;
+using IRelayHybridConnRx.Service;
+using Microsoft.Azure.Relay;
+using RelayHybridConnRx.CustomException;
+using RelayHybridConnRx.Model;
+using System;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -6,11 +11,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using IRelayHybridConnRx.Model;
-using IRelayHybridConnRx.Service;
-using Microsoft.Azure.Relay;
-using RelayHybridConnRx.CustomException;
-using RelayHybridConnRx.Model;
 
 namespace RelayHybridConnRx.Service
 {
@@ -30,7 +30,13 @@ namespace RelayHybridConnRx.Service
         }
 
         public async Task<(IObservable<RelayListenerConnectionState> relayConnectionStateObservable, IObservable<IMessage> messageObservable)> 
-            RelayListenerInitializeAsync(string relayNamespace, string connectionName, string keyName, string key, TimeSpan? timeout = null)
+            RelayListenerInitializeAsync(
+                string relayNamespace, 
+                string connectionName, 
+                string keyName, 
+                string key, 
+                TimeSpan? timeout = null, 
+                CancellationTokenSource cancellationTokenSource = null)
         {
             if (_isInitialized)
             {
@@ -40,9 +46,9 @@ namespace RelayHybridConnRx.Service
             _isInitialized = true;
 
             // Set default timout to 10 seconds.
-            timeout = timeout ?? TimeSpan.FromSeconds(10);
+            var to = timeout ?? TimeSpan.FromSeconds(10);
 
-            var cts = new CancellationTokenSource(timeout.Value);
+            var cts = cancellationTokenSource ?? new CancellationTokenSource();
 
             var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(keyName, key);
 
@@ -68,7 +74,7 @@ namespace RelayHybridConnRx.Service
                         {
                             if (connection != null)
                             {
-                                disposableRelayMessages = _observableRelayStringLine(connection, cts.Token)
+                                disposableRelayMessages = _observableRelayStringLine(connection, cts.Token, to)
                                     .Subscribe(obs.OnNext, obs.OnError);
                             }
                         },
@@ -92,7 +98,7 @@ namespace RelayHybridConnRx.Service
 
                         try
                         {
-                            listener.CloseAsync(CancellationToken.None).Wait(cts.Token);
+                            listener.CloseAsync(CancellationToken.None).Wait(new CancellationTokenSource(to).Token);
                         }
                         catch (Exception ex)
                         {
@@ -116,12 +122,7 @@ namespace RelayHybridConnRx.Service
             return (_relayStateObservable, observableRelayMessages);
         }
 
-        public async Task ResponseLineAsync(StreamWriter writer, string message)
-        {
-            await writer.WriteLineAsync(message);
-        }
-
-        private IObservable<IMessage> _observableRelayStringLine(HybridConnectionStream connection, CancellationToken ct) 
+        private IObservable<IMessage> _observableRelayStringLine(HybridConnectionStream connection, CancellationToken ct, TimeSpan timeout) 
             => Observable.Create<IMessage>(
                 obs =>
                 {
@@ -147,7 +148,7 @@ namespace RelayHybridConnRx.Service
 
                                 try
                                 {
-                                    connection?.ShutdownAsync(ct)?.Wait(ct);
+                                    connection?.ShutdownAsync(ct)?.Wait(new CancellationTokenSource(timeout).Token);
                                 }
                                 catch (AggregateException)
                                 {
@@ -184,7 +185,7 @@ namespace RelayHybridConnRx.Service
 
                             try
                             {
-                                connection?.ShutdownAsync(ct)?.Wait(ct);
+                                connection?.ShutdownAsync(ct)?.Wait(new CancellationTokenSource(timeout).Token);
                             }
                             catch (AggregateException)
                             {
