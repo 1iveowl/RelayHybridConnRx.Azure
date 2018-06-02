@@ -2,7 +2,7 @@
 [![NuGet Badge](https://buildstats.info/nuget/RelayHybridConnRx.Azure)](https://www.nuget.org/packages/RelayHybridConnRx.Azure)
 
 [![.NET Standard](http://img.shields.io/badge/.NET_Standard-v2.0-green.svg)](https://docs.microsoft.com/en-us/dotnet/articles/standard/library)
-[![System.Reactive](http://img.shields.io/badge/Rx-v3.1.1-ff69b4.svg)](http://reactivex.io/) 
+[![System.Reactive](http://img.shields.io/badge/Rx-v4.0.0-ff69b4.svg)](http://reactivex.io/) 
 
 *Please star this project if you find it useful. Thank you.*
 
