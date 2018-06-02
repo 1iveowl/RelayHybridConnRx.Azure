@@ -12,32 +12,25 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Setting up an Azure Relay Hybrid Connection have never been easier</description>
     <releaseNotes>
-Bug fix: timeout bug
+[.NET] Supports .NET 4.6.1 and later.
     </releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>azure relay hybrid connection reactive extensions rx netstardard</tags>
 
     <dependencies>
 
-      <group targetFramework="net45">
-        <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.Reactive" version="3.1.1" />
-        <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.ValueTuple" version="4.4.0"/>
-      </group>
-
       <group targetFramework="net461">
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.Reactive" version="3.1.1" />
+        <dependency id="System.Reactive" version="4.0.0" />
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.ValueTuple" version="4.4.0"/>
+        <dependency id="System.ValueTuple" version="4.5.0"/>
       </group>
 
       <group targetFramework="netstandard2.0">
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
         <dependency id="System.Net.Sockets" version="4.3.0"/>
         <dependency id="System.Net.Websockets" version="4.3.0"/>
-        <dependency id="System.Reactive" version="3.1.1"/>
+        <dependency id="System.Reactive" version="4.0.0"/>
         <dependency id="System.Runtime.Serialization.Json" version="4.3.0"/>
       </group>
 
@@ -48,9 +41,6 @@ Bug fix: timeout bug
   <files>
     <file src="..\main\RelayHybridConnRx\bin\Release\netstandard2.0\RelayHybridConnRx.*" target="lib\netstandard2.0" />
     <file src="..\main\RelayHybridConnRx\bin\Release\netstandard2.0\IRelayHybridConnRx.*" target="lib\netstandard2.0" />
-
-    <file src="..\Crossplatform\RelayHybridConnRx.net45\bin\Release\RelayHybridConnRx.*" target="lib\net45" />
-    <file src="..\Crossplatform\RelayHybridConnRx.net45\bin\Release\IRelayHybridConnRx.*" target="lib\net45" />
 
     <file src="..\Crossplatform\RelayHybridConnRx.net461\bin\Release\RelayHybridConnRx.*" target="lib\net461" />
     <file src="..\Crossplatform\RelayHybridConnRx.net461\bin\Release\IRelayHybridConnRx.*" target="lib\net461" />
