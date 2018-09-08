@@ -51,11 +51,14 @@ namespace ConsoleTest
 
             await Task.Delay(TimeSpan.FromSeconds(12));
 
-            await relayClient.SendAsync("Test");
+            //await relayClient.SendAsync("Test");
 
             await Task.Delay(TimeSpan.FromSeconds(12));
 
-            await relayClient.SendAsync("Test2");
+            //await relayClient.SendAsync("Test2");
+
+
+            await Task.Delay(TimeSpan.FromSeconds(1000000));
 
             Console.WriteLine("Press anykey to stop listening...");
             Console.ReadLine();

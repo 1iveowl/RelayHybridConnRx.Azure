@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -49,6 +50,7 @@ namespace RelayHybridConnRx.Service
                     readerObservable)
                     .Subscribe(stringLine =>
                     {
+                        Debug.WriteLine(stringLine);
                         // If there's no input data, signal that 
                         // you will no longer send data on this connection.
                         // Then, break out of the processing loop.
@@ -61,8 +63,11 @@ namespace RelayHybridConnRx.Service
                     },
                     ex =>
                     {
+                        Debug.WriteLine(ex.ToString());
+
                         if (ex is IOException)
                         {
+                           
                             // Catch an I/O exception. This likely occurred when
                             // the client disconnected.
                         }

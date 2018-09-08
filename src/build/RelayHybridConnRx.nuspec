@@ -13,6 +13,7 @@
     <description>Setting up an Azure Relay Hybrid Connection have never been easier</description>
     <releaseNotes>
 [.NET] Supports .NET 4.6.1 and later.
+[.NET Core] Support .NET Standard 2.0 and later.
     </releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>azure relay hybrid connection reactive extensions rx netstardard</tags>
@@ -21,7 +22,7 @@
 
       <group targetFramework="net461">
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.Reactive" version="4.0.0" />
+        <dependency id="System.Reactive" version="4.1.0" />
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
         <dependency id="System.ValueTuple" version="4.5.0"/>
       </group>
@@ -30,7 +31,7 @@
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
         <dependency id="System.Net.Sockets" version="4.3.0"/>
         <dependency id="System.Net.Websockets" version="4.3.0"/>
-        <dependency id="System.Reactive" version="4.0.0"/>
+        <dependency id="System.Reactive" version="4.1.0"/>
         <dependency id="System.Runtime.Serialization.Json" version="4.3.0"/>
       </group>
 
