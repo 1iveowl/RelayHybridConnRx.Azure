@@ -4,6 +4,7 @@ using Microsoft.Azure.Relay;
 using RelayHybridConnRx.CustomException;
 using RelayHybridConnRx.Model;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -40,7 +41,7 @@ namespace RelayHybridConnRx.Service
         {
             if (_isInitialized)
             {
-                throw new RelayListenerException("Relay Listener can only be initialized once. Create a new instance if multiple listerners are needed.");
+                throw new RelayListenerException("Relay Listener can only be initialized once. Create a new instance if multiple listeners are needed.");
             }
 
             _isInitialized = true;
@@ -142,6 +143,9 @@ namespace RelayHybridConnRx.Service
                             // If there's no input data, signal that 
                             // you will no longer send data on this connection.
                             // Then, break out of the processing loop.
+
+                            Debug.WriteLine(stringLine);
+
                             if (string.IsNullOrEmpty(stringLine))
                             {
                                 writer?.Dispose();
@@ -162,6 +166,7 @@ namespace RelayHybridConnRx.Service
                         },
                         ex =>
                         {
+                            Debug.WriteLine(ex.ToString());
                             if (ex is IOException)
                             {
                                 // Catch an I/O exception. This likely occurred when
