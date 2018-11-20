@@ -33,7 +33,7 @@ namespace ConsoleTest
 
             var disposableMessages = listener.messageObservable.Subscribe(async msg =>
                 {
-                    Console.WriteLine($"Listener Recieved Message: {msg.IncomingMessage}");
+                    Console.WriteLine($"Listener Received Message: {msg.IncomingMessage}");
                     await msg.ResponseMessageAsync($"Received: {msg.IncomingMessage}");
                 },
                 ex => Console.WriteLine($"Listener exception: {ex}"),

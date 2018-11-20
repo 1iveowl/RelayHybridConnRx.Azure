@@ -22,17 +22,13 @@
 
       <group targetFramework="net461">
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.Reactive" version="4.1.0" />
-        <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
+        <dependency id="System.Reactive" version="4.1.2" />
         <dependency id="System.ValueTuple" version="4.5.0"/>
       </group>
 
       <group targetFramework="netstandard2.0">
         <dependency id="Microsoft.Azure.Relay" version="1.0.0"/>
-        <dependency id="System.Net.Sockets" version="4.3.0"/>
-        <dependency id="System.Net.Websockets" version="4.3.0"/>
-        <dependency id="System.Reactive" version="4.1.0"/>
-        <dependency id="System.Runtime.Serialization.Json" version="4.3.0"/>
+        <dependency id="System.Reactive" version="4.1.2"/>
       </group>
 
 
